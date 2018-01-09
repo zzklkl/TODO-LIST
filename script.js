@@ -65,3 +65,16 @@ var todoList = {
   }
 };
 
+var displayTodosBtn = document.getElementById('displayTodosBtn'),
+    toggleAllBtn = document.getElementById('toggleAllBtn');
+    
+//Display todos part    
+displayTodosBtn.addEventListener('click', function() {
+  todoList.displayTodos();
+});
+
+//Toggle All todos part
+toggleAllBtn.addEventListener('click', function() {
+  todoList.toggleAll();
+  todoList.displayTodos();
+});
