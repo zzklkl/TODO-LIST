@@ -70,10 +70,8 @@ var handlers = {
     view.displayTodos();
   },
 
-  deleteTodo: function () {
-    var deleteTodoPositionInput = document.getElementById('deleteTodoPositionInput');
-    todoList.deleteTodo(deleteTodoPositionInput.valueAsNumber);
-    deleteTodoPositionInput.value = '';
+  deleteTodo: function(opsition) {
+    todoList.deleteTodo(opsition);
     view.displayTodos();
   },
 
@@ -87,7 +85,7 @@ var handlers = {
 
 var view = {
   displayTodos: function () {
-    todosUl = document.querySelector('ul');
+    var todosUl = document.querySelector('ul');
     todosUl.innerHTML = '';
     for (var i = 0; i < todoList.todos.length; i++) {
       var todoLi = document.createElement('li');
@@ -98,6 +96,7 @@ var view = {
       } else {
         todoTextWithCompletion = '( ) ' + todo.todoText;
       }
+      todoLi.id = i;
       todoLi.textContent = todoTextWithCompletion;
       todoLi.appendChild(this.createDeleteButton());
       todosUl.appendChild(todoLi);
@@ -107,7 +106,22 @@ var view = {
   createDeleteButton: function () {
     deleteButton = document.createElement('button');
     deleteButton.textContent = 'Delete';
-    deleteButton.className = 'delete-button';
+    deleteButton.className = 'deleteButton';
     return deleteButton;
+  },
+
+  setUpEvenListeners: function () {
+    var todosUl = document.querySelector('ul');
+    todosUl.addEventListener('click', function(event) {
+      //获得单击的元素
+      var elementClicked = event.target;
+
+      //确认单击的是不是删除按钮
+      if (elementClicked.className === 'deleteButton') {
+        handlers.deleteTodo(parseInt(elementClicked.parentNode.id));
+      }
+    });
   }
 };
+
+view.setUpEvenListeners();
